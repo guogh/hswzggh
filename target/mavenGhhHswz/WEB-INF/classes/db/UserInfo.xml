@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db">
+
+    <insert id="addUserInfo" parameterType="UserInfo" >
+        insert into UserInfo (name ,password) values (#{name},#{password})
+    </insert>
+
+    <delete id="deleteUserInfo" parameterType="UserInfo" >
+        delete from UserInfo where name= #{name}
+    </delete>
+
+    <select id="getUserInfo" parameterType="UserInfo" resultType="UserInfo">
+        select * from   UserInfo  where name= #{name}
+    </select>
+
+    <update id="updateUserInfo" parameterType="UserInfo" >
+        update UserInfo set password=#{password} where name=#{name}
+    </update>
+
+    <select id="listUserInfo" resultType="UserInfo">
+        select * from   UserInfo
+    </select>
+
+</mapper>

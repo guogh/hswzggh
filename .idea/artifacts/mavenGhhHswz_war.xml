@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mavenGhhHswz:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="mavenGhhHswz.war">
+      <element id="artifact" artifact-name="mavenGhhHswz:war exploded" />
+    </root>
+  </artifact>
+</component>
