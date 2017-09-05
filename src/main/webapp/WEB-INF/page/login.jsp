@@ -10,7 +10,7 @@
 	</head>
 
 	<body>
-		<form name="input" action="/webApi/loginDo" method="get">
+		<form name="input" action="webApi/loginDo" method="get">
 			用户名: <input type="text" name="name"> <br>
 			密 码: <input type="password" name="password"> <br>
 			<input type="submit" value="登录">

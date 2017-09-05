@@ -1,7 +1,14 @@
 body{
-    text-align:center}
+    text-align:center;
+}
 	
 #indexBtn{
     margin: 0;
     border:1px solid #000;
-    width: 100px;}
+    width: 100px;
+}
+    
+.video-play{
+	width: 640px;
+	margin: 0 auto;
+}

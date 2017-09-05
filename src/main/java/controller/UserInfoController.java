@@ -43,12 +43,15 @@ public class UserInfoController {
         if (us.size() == 1){
             UserInfo getUser = us.get(0);
             if (getUser.getPassword().equals(password)){
+                request.getSession().setAttribute("userName", name);
                 mav = new ModelAndView("redirect:/success.html");
             }else {
                 mav = new ModelAndView("redirect:/fail.html");
+                mav.addObject("reason", "密码错误！");
             }
         }else {
             mav = new ModelAndView("redirect:/fail.html");
+            mav.addObject("reason", "用户名错误！");
         }
         return mav;
     }
@@ -57,7 +60,8 @@ public class UserInfoController {
     public ModelAndView register(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String name=request.getParameter("name");
         String password=request.getParameter("password");
-        System.out.println("name is: "+name + " password is: "+password);
+        String invitationCode = request.getParameter("invitationCode");
+        System.out.println("name is: "+name + " password is: "+password +"invitationCode:" + invitationCode);
 
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -69,7 +73,16 @@ public class UserInfoController {
         List<UserInfo> us = session.selectList("getUserInfo",user);
 
         ModelAndView mav = null;
-        if (us.size() == 0){
+        if (!invitationCode.equals("666666")){
+            mav = new ModelAndView("redirect:/fail.html");
+            mav.addObject("reason", "邀请码错误！");
+        }else if (name.length() == 0 || password.length() == 0){
+            mav = new ModelAndView("redirect:/fail.html");
+            mav.addObject("reason", "用户名 或 密码 唯空！");
+        }else if (us.size() != 0){
+            mav = new ModelAndView("redirect:/fail.html");
+            mav.addObject("reason", " 用户名已存在！");
+        }else if (us.size() == 0 ){
             UserInfo user1 = new UserInfo();
             user1.setName(name);
             user1.setPassword(password);
@@ -77,6 +90,7 @@ public class UserInfoController {
             mav = new ModelAndView("redirect:/login.html");
         }else {
             mav = new ModelAndView("redirect:/fail.html");
+            mav.addObject("reason", " 其他 错误！");
         }
 
         session.commit();

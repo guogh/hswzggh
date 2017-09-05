@@ -22,6 +22,10 @@ public class IndexInterceptor extends HandlerInterceptorAdapter {
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("preHandle(), 在访问Controller之前被调用 request.uri=" + request.getRequestURI());
+
+
+
+
         return true;
     }
 

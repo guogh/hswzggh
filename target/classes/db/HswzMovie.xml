@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="db">
+
+    <insert id="addHswzMovie" parameterType="HswzMovie" >
+        insert into HswzMovie (name ,path,netUrl) values (#{name},#{path},#{netUrl})
+    </insert>
+
+    <delete id="deleteHswzMovie" parameterType="HswzMovie" >
+        delete from HswzMovie where name= #{name}
+    </delete>
+
+    <select id="getHswzMovie" parameterType="HswzMovie" resultType="HswzMovie">
+        select * from   HswzMovie  where name= #{name}
+    </select>
+
+    <update id="updateHswzMovie" parameterType="HswzMovie" >
+        update HswzMovie set path=#{path} where name=#{name}
+    </update>
+
+    <select id="listHswzMovie" resultType="HswzMovie">
+        select * from   HswzMovie
+    </select>
+
+</mapper>

@@ -48,11 +48,26 @@ public class TestMybatis {
 //        session.delete("deleteUserInfo",user);
 //        listAllUserInfo(session);
 
-        UserInfo user = new UserInfo();
-        user.setName("name1");
-        user.setPassword("");
-        session.delete("deleteUserInfo",user);
-        listAllUserInfo(session);
+//        UserInfo user = new UserInfo();
+//        user.setName("name1");
+//        user.setPassword("");
+//        session.delete("deleteUserInfo",user);
+//        listAllUserInfo(session);
+
+//        HswzMovie movie = new HswzMovie();
+//        movie.setName("第一部片");
+//        movie.setPath("hhh");
+//        movie.setNetUrl("sdfsdf");
+//        session.insert("addHswzMovie",movie);
+//        listAllHswzMovie(session);
+
+        String i = "2";
+        HswzMovie movie1 = new HswzMovie();
+        movie1.setId(Integer.parseInt(i));
+        List<HswzMovie> movies = session.selectList("getHswzMovie",movie1);
+        for (HswzMovie movie : movies) {
+            System.out.println("id="+movie.getId() + " name="+movie.getName()+" path="+movie.getPath()+" netUrl="+movie.getNetUrl());
+        }
 
 
         session.commit();
@@ -70,6 +85,13 @@ public class TestMybatis {
         List<UserInfo> us = session.selectList("listUserInfo");
         for (UserInfo user : us) {
             System.out.println("id="+user.getId() + " name="+user.getName()+" password="+user.getPassword());
+        }
+    }
+
+    private static void listAllHswzMovie(SqlSession session){
+        List<HswzMovie> movies = session.selectList("listHswzMovie");
+        for (HswzMovie movie : movies) {
+            System.out.println("id="+movie.getId() + " name="+movie.getName()+" path="+movie.getPath()+" netUrl="+movie.getNetUrl());
         }
     }
 
