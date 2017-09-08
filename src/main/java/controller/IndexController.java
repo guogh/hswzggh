@@ -30,7 +30,8 @@ public class IndexController {
         if (null == userName || userName.length() == 0) {
             mav = new ModelAndView("index");
         }else {
-            mav = new ModelAndView("redirect:/listMovie.html");
+            //如果已经登陆，直接跳转到成功页面
+            mav = new ModelAndView("redirect:/success.html");
         }
 
         return mav;

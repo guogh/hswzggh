@@ -28,6 +28,7 @@
   </filter-mapping>
 
 
+
   <!--登陆权限 过滤器-->
   <filter>
     <filter-name>AuthFilter</filter-name>
@@ -87,5 +88,18 @@
     <!--<servlet-name>default</servlet-name>-->
     <!--<url-pattern>*.css</url-pattern>-->
   <!--</servlet-mapping>-->
+
+  <!-- 指定监听器加载的log4j配置文件 -->
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:log4j.properties</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>6000</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
 
 </web-app>

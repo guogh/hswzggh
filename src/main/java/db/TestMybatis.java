@@ -8,15 +8,26 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
+import org.apache.log4j.Logger;
 
 public class TestMybatis {
 
+    private static Logger logger = Logger.getLogger(TestMybatis.class);
+
     public static void main(String[] args) throws IOException {
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        SqlSession session = sqlSessionFactory.openSession();
+
+                // 记录debug级别的信息
+                logger.debug("This is debug message.");
+                // 记录info级别的信息
+                logger.info("This is info message.");
+                // 记录error级别的信息
+                logger.error("This is error message.");
+
+
+//        String resource = "mybatis-config.xml";
+//        InputStream inputStream = Resources.getResourceAsStream(resource);
+//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//        SqlSession session = sqlSessionFactory.openSession();
 
 //        Category c = new Category();
 //        c.setName("我是 新增加的Category");
@@ -61,17 +72,17 @@ public class TestMybatis {
 //        session.insert("addHswzMovie",movie);
 //        listAllHswzMovie(session);
 
-        String i = "2";
-        HswzMovie movie1 = new HswzMovie();
-        movie1.setId(Integer.parseInt(i));
-        List<HswzMovie> movies = session.selectList("getHswzMovie",movie1);
-        for (HswzMovie movie : movies) {
-            System.out.println("id="+movie.getId() + " name="+movie.getName()+" path="+movie.getPath()+" netUrl="+movie.getNetUrl());
-        }
+//        String i = "2";
+//        HswzMovie movie1 = new HswzMovie();
+//        movie1.setId(Integer.parseInt(i));
+//        List<HswzMovie> movies = session.selectList("getHswzMovie",movie1);
+//        for (HswzMovie movie : movies) {
+//            System.out.println("id="+movie.getId() + " name="+movie.getName()+" path="+movie.getPath()+" netUrl="+movie.getNetUrl());
+//        }
 
-
-        session.commit();
-        session.close();
+//
+//        session.commit();
+//        session.close();
     }
 
     private static void listAll(SqlSession session) {

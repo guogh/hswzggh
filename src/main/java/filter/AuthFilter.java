@@ -12,12 +12,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 public class AuthFilter implements Filter {
+    private static Logger logger = Logger.getLogger(AuthFilter.class);
 
     @Override
     public void destroy() {
-        System.out.println("登陆验证 过滤器 初始化");
+
     }
 
     @Override
@@ -43,19 +45,19 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        String userName = (String) request.getSession().getAttribute("userName");
-        if (null == userName || userName.length() == 0) {
-            System.out.println(userName + "没有登陆，不允许访问资源" + uri);
-            response.sendRedirect("login.html");
-            return;
-        }
+//        String userName = (String) request.getSession().getAttribute("userName");
+//        if (null == userName || userName.length() == 0) {
+//            logger.info(userName + "没有登陆，不允许访问资源" + uri);
+//            response.sendRedirect("login.html");
+//            return;
+//        }
 
-        System.out.println("userName = " + userName + "已经登陆过了" + "允许访问资源" + uri);
+//        logger.info("userName = " + userName + "已经登陆过了" + "允许访问资源" + uri);
         chain.doFilter(request, response);
     }
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
-
+        logger.info("登陆验证 过滤器 初始化");
     }
 }

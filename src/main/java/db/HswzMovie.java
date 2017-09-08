@@ -1,6 +1,12 @@
 package db;
 
 public class HswzMovie {
+    private int id;
+    private String name;
+    private String upMaster;
+    private String path;
+    private String netUrl;
+
     public int getId() {
         return id;
     }
@@ -33,8 +39,11 @@ public class HswzMovie {
         this.netUrl = netUrl;
     }
 
-    private int id;
-    private String name;
-    private String path;
-    private String netUrl;
+    public String getUpMaster() {
+        return upMaster;
+    }
+
+    public void setUpMaster(String upMaster) {
+        this.upMaster = upMaster;
+    }
 }

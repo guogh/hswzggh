@@ -6,7 +6,7 @@
 <mapper namespace="db">
 
     <insert id="addHswzMovie" parameterType="HswzMovie" >
-        insert into HswzMovie (name ,path,netUrl) values (#{name},#{path},#{netUrl})
+        insert into HswzMovie (name ,upMaster,path,netUrl) values (#{name},#{upMaster},#{path},#{netUrl})
     </insert>
 
     <delete id="deleteHswzMovie" parameterType="HswzMovie" >

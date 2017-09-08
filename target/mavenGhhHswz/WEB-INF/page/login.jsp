@@ -10,11 +10,20 @@
 	</head>
 
 	<body>
+		<script>
+            function register(){
+                window.location.href='register.html';
+            }
+		</script>
+
 		<form name="input" action="webApi/loginDo" method="get">
-			用户名: <input type="text" name="name"> <br>
-			密 码: <input type="password" name="password"> <br>
-			<input type="submit" value="登录">
+			用户名: <input class="input-Line" type="text" name="name"> <br>
+			密  码: <input class="input-Line" type="password" name="password"> <br>
+			<input class="btn-line" type="submit" value="登录">
 		</form>
+
+		<button class="btn-line"  onclick="register()"> 去注册</button>
 	</body>
 
 </html>
+

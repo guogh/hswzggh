@@ -8,7 +8,9 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import interceptor.IndexInterceptor;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
-//import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,65 +38,65 @@ import upLoadFile.*;
 
 @Controller
 public class MovieController {
+    private static Logger logger = Logger.getLogger(IndexInterceptor.class);
+    private static String moviesPath = "../movies/";
 
     @RequestMapping("/listMovie")
     public ModelAndView listMovie(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        SqlSession session = sqlSessionFactory.openSession();
-
+        SqlSession session = getSqlSessionForMybase();
         List<HswzMovie> movies = session.selectList("listHswzMovie");
-        HswzMovie oneMovie = null;
+        closeSqlSessionForMybase(session);
+
         for (HswzMovie movie : movies) {
             System.out.println("id=" + movie.getId() + " name=" + movie.getName() + " path=" + movie.getPath() + " netUrl=" + movie.getNetUrl());
-            oneMovie = movie;
         }
-        session.commit();
-        session.close();
 
         ModelAndView mav = new ModelAndView("listMovie");
         mav.addObject("list", movies);
-        mav.addObject("movie", oneMovie);
         return mav;
     }
 
     @RequestMapping("/playVideo")
     public ModelAndView playVideo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String name = request.getParameter("name");
-        System.out.println("parameter name = " + name);
-
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        SqlSession session = sqlSessionFactory.openSession();
-
         HswzMovie movie = new HswzMovie();
         movie.setName(name);
+
+        SqlSession session = getSqlSessionForMybase();
         List<HswzMovie> movies = session.selectList("getHswzMovie", movie);
         movie = movies.get(0);
-        session.commit();
-        session.close();
+        closeSqlSessionForMybase(session);
 
-        System.out.println("movie id=" + movie.getId() + " name=" + movie.getName() + " path=" + movie.getPath() + " netUrl=" + movie.getNetUrl());
+        logger.info("movie id=" + movie.getId() + " name=" + movie.getName() + " path=" + movie.getPath() + " netUrl=" + movie.getNetUrl());
+
+        //媒体文件的类型
+        String type = null;
+        if (movie.getName().endsWith(".mp4") || movie.getName().endsWith(".MP4")){
+            type = "video/mp4";
+        }else  if (movie.getName().endsWith(".m3u8") || movie.getName().endsWith(".m3u")){
+            type = "application/x-mpegURL";
+        }else if (movie.getName().startsWith("rtmp:")){
+            type = "rtmp/flv";
+        }else {
+            type = "video/mp4";
+        }
+
         ModelAndView mav = new ModelAndView("playVideo");
-        mav.addObject("movie", movie);
+        mav.addObject("movieSrc", "movies/"+movie.getName());
+        mav.addObject("movieType", type);
         return mav;
     }
-
 
     @RequestMapping("/upLoadMovieDo")
     public ModelAndView upLoadMovieDo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name ");
         String netUrl = request.getParameter("netUrl");
-        String pathRoot = System.getProperty("evan.webapp") +"movies/";
+        String pathRoot = System.getProperty("evan.webapp") + moviesPath;
         System.out.println("parameter name = " + name + " netUrl = " + netUrl +"pathRoot = "+ pathRoot);
-
 
         long startTime = System.currentTimeMillis();
         //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-
         //检查form中是否有enctype="multipart/form-data"
         String fileName = null;
         if (multipartResolver.isMultipart(request)) {
@@ -122,23 +123,42 @@ public class MovieController {
         long endTime = System.currentTimeMillis();
         System.out.println("方法三的运行时间：" + String.valueOf(endTime - startTime) + "ms");
 
-        //写数据
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        SqlSession session = sqlSessionFactory.openSession();
-
+        //写 数据库记录
         HswzMovie movie = new HswzMovie();
         movie.setName(fileName);
-        movie.setPath("movies/" + fileName);
+        movie.setPath( moviesPath + fileName);
         movie.setNetUrl(netUrl);
+        movie.setUpMaster((String) request.getSession().getAttribute("userName"));
+
+        SqlSession session = getSqlSessionForMybase();
         session.insert("addHswzMovie", movie);
-        session.commit();
-        session.close();
+        closeSqlSessionForMybase(session);
 
         System.out.println("movie id=" + movie.getId() + " name=" + movie.getName() + " path=" + movie.getPath() + " netUrl=" + movie.getNetUrl());
         ModelAndView mav = new ModelAndView("redirect:/listMovie.html");
         return mav;
     }
 
+    /*
+        打开 数据库连接
+     */
+    private SqlSession getSqlSessionForMybase(){
+        String resource = "mybatis-config.xml";
+        InputStream inputStream = null;
+        try {
+            inputStream = Resources.getResourceAsStream(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        return sqlSessionFactory.openSession();
+    }
+
+    /*
+        关闭数据库连接
+     */
+    private void closeSqlSessionForMybase(SqlSession session){
+        session.commit();
+        session.close();
+    }
 }

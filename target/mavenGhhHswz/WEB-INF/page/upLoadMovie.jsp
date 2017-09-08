@@ -27,10 +27,10 @@
 					<input id="fileupload" type="file" name="movie">
 				</div>
 				<div class="">
-					网络链接 : <input type="text" name="netUrl" /> <br>
+					网络链接 : <input class="input-Line" type="text" name="netUrl" /> <br>
 				</div>
 				<div class="">
-					视频名称 : <input type="text" name="name" /> <br>
+					视频名称 : <input class="input-Line" type="text" name="name" /> <br>
 				</div>
 
 				<div class="progress">
@@ -41,7 +41,7 @@
 				<!-- 显示已上传的图片-->
 				<div class="showimg"></div>
 			</div>
-			<input type="submit" onclick="gosubmit2()" />
+			<input class="btn-line" type="submit" onclick="gosubmit2()" />
 		</form>
 		
 		<script src="//oss.maxcdn.com/jquery.form/3.50/jquery.form.min.js"></script>

@@ -17,16 +17,23 @@
     <title>播放列表 </title>
 </head>
 <body>
-<h1 >播放列表</h1>
+
+<script >
+    function toUpLoadMovies() {
+        window.location.href='upLoadMovie.html';
+    }
+</script>
+
+<h1 >播放列表  <button class="btn-line"  onclick="toUpLoadMovies()"> 上传视频 </button> </h1>
 
 <table border="1" align="center" cellspacing="" cellpadding="">
-	<tr><td >序号 </td><td>名称</td><td>路径</td><td>网络链接</td><td>状态</td></tr>
+	<tr><td >序号 </td><td>名称</td><td>阿婆主</td><td>网络链接</td><td>状态</td></tr>
 	
 	<c:forEach items="${list}" var="item" varStatus="status">
     <tr >
         <td>${item.id}</td>
         <td>${item.name}</td>
-        <td>${item.path}</td>
+        <td>${item.upMaster}</td>
         <td>${item.netUrl}</td>
         <td><a href='playVideo.html?name=${item.name}'>播放</a></td>
     </tr>

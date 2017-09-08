@@ -7,6 +7,18 @@ body{
     border:1px solid #000;
     width: 100px;
 }
+
+.input-Line{
+    margin: 5px;
+    border:1px solid #000;
+    width: 100px;
+}
+
+.btn-line{
+	margin: 10px;
+    border:1px solid #000;
+    width: 100px;
+}    
     
 .video-play{
 	width: 640px;

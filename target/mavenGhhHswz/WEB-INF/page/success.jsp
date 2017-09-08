@@ -19,6 +19,10 @@
         window.location.href='listMovie.html';
     }
 
+    function livePlayList() {
+        window.location.href='livePlayList.html';
+    }
+
     function uploadfile() {
         window.location.href='upLoadMovie.html';
     }
@@ -26,8 +30,9 @@
 
     <h2> Hello World!   success </h2>
 
-    <button  onclick="golist()"> 走你 </button>
-    <button  onclick="uploadfile()"> 上传 </button>
+    <button class="btn-line" onclick="golist()"> 走你 </button>
+    <button class="btn-line" onclick="livePlayList()"> 直播 </button>
+    <button class="btn-line" onclick="uploadfile()"> 上传 </button>
 
 </body>
 </html>

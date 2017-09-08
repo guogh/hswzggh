@@ -12,10 +12,10 @@
 
 	<body>
 		<form name="input" action="webApi/registerDo" method="post">
-			用户名: <input type="text" name="name"> <br> 
-			密 码: <input type="password" name="password"> <br>
-			邀请码: <input type="text" name="invitationCode"> <br>
-			<input type="submit" value="注册">
+			用户名: <input class="input-Line" type="text" name="name"> <br>
+			密  码: <input  class="input-Line" type="password" name="password"> <br>
+			邀请码: <input class="input-Line" type="text" name="invitationCode"> <br>
+			<input class="btn-line" type="submit" value="注册">
 		</form>
 	</body>
 </html>

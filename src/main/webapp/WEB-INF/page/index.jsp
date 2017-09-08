@@ -14,6 +14,6 @@
 
 <div id="">
 	<h1>Hello hswz ggh</h1>
-	<button id="indexBtn"  onclick="login()"> 登录</button>
-	<button id="indexBtn"  onclick="register()"> 注册 </button>
+	<button class="btn-line"   onclick="login()"> 登录</button>
+	<button class="btn-line"  onclick="register()"> 注册 </button>
 </div>
